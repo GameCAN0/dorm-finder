@@ -3,40 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="รายละเอียดหอพัก เครื่องคำนวณค่าใช้จ่ายรายเดือน และเส้นทาง Google Maps">
-  <title>รายละเอียดหอพัก - Dorm Finder</title>
+  <meta name="description" content="รายละเอียดหอพักและเครื่องคำนวณค่าใช้จ่ายรายเดือนตามจำนวนหน่วยไฟและจำนวนคนพัก">
+  <title>Dorm Finder — รายละเอียดหอพักและเครื่องคำนวณค่าใช้จ่ายรายเดือน</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-page="dorm-detail">
-  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
-
-  <header>
-    <div class="nav-container">
-      <a href="index.html" class="brand-title">
-        <span>🏠 Dorm Finder</span>
+<body>
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-link">
+        <span class="brand-badge">กลุ่มที่ 7 · หมูเด้ง</span>
+        <span>Dorm Finder · มรภ.บ้านสมเด็จเจ้าพระยา</span>
       </a>
-      <nav aria-label="เมนูหลัก">
-        <ul class="nav-links">
-          <li><a href="index.html">หน้าแรก</a></li>
-          <li><a href="dorms.html">ค้นหาหอพัก</a></li>
-          <li><a href="compare.html">เปรียบเทียบ <span id="compare-badge" class="badge">0</span></a></li>
-          <li><a href="review.html">รีวิวหอพัก</a></li>
+      <nav class="main-nav" aria-label="เมนูหลักของเว็บไซต์">
+        <ul>
+          <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
+          <li><a href="dorms.html" class="nav-link">รายการหอพักทั้งหมด</a></li>
+          <li><a href="dorm.html" class="nav-link" aria-current="page">รายละเอียด & คำนวณค่าใช้จ่าย</a></li>
+          <li><a href="compare.html" class="nav-link">เปรียบเทียบหอพัก <span class="nav-compare-badge js-compare-count" aria-label="จำนวนหอที่เลือกเปรียบเทียบ">0/3</span></a></li>
+          <li><a href="review.html" class="nav-link">รีวิวหอพัก</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main id="main-content">
-    <div id="dorm-detail-container">
-      <!-- Rendered via JS -->
-      <p style="text-align:center; padding:2rem;">กำลังโหลดข้อมูลหอพัก...</p>
+  <main id="main-content" class="container">
+    <div id="detail-status-banner" class="status-banner info" role="status" aria-live="polite" hidden></div>
+
+    <div class="detail-layout">
+      <article id="dorm-detail-content" class="detail-card" aria-live="polite">
+        <h1>กำลังโหลดข้อมูลรายละเอียดหอพัก...</h1>
+      </article>
+
+      <section class="calculator-card" aria-labelledby="calc-heading">
+        <h2 id="calc-heading">เครื่องคำนวณค่าใช้จ่ายรายเดือน (ฟีเจอร์ F5)</h2>
+        <p class="field-hint">ประมาณการค่าใช้จ่ายต่อเดือนจากจำนวนหน่วยไฟฟ้าที่คาดว่าจะใช้และจำนวนผู้พักอาศัย</p>
+
+        <form id="cost-calculator-form" novalidate>
+          <div class="form-group">
+            <label for="calc-dorm-select" class="form-label">เลือกหอพักที่ต้องการคำนวณ</label>
+            <select id="calc-dorm-select" class="form-control"></select>
+          </div>
+
+          <div class="form-group">
+            <label for="elec-units" class="form-label">จำนวนหน่วยไฟฟ้าที่คาดว่าจะใช้ต่อเดือน (หน่วย) *</label>
+            <input type="number" id="elec-units" class="form-control" min="0" max="3000" step="10" value="100" required aria-describedby="elec-hint elec-error">
+            <span id="elec-hint" class="field-hint">ค่าแนะนำ: ห้องพัดลมประมาณ 50–80 หน่วย, ห้องแอร์ประมาณ 100–200 หน่วย/เดือน</span>
+            <p id="elec-error" class="error-message" role="alert" aria-live="assertive"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="roommates-count" class="form-label">จำนวนคนพักอาศัย (คน) *</label>
+            <input type="number" id="roommates-count" class="form-control" min="1" max="10" step="1" value="2" required aria-describedby="roommates-error">
+            <p id="roommates-error" class="error-message" role="alert" aria-live="assertive"></p>
+          </div>
+
+          <button type="submit" class="btn btn-primary">คำนวณค่าใช้จ่ายรายเดือน</button>
+        </form>
+
+        <div class="calc-result-box" aria-live="polite">
+          <p><strong id="res-dorm-name">กำลังคำนวณ...</strong></p>
+          <ul class="calc-breakdown">
+            <li><span>ค่าเช่าห้องรายเดือน:</span> <strong id="res-rent">-</strong></li>
+            <li><span>ค่าไฟฟ้า (หน่วย × อัตราหอพัก):</span> <strong id="res-elec">-</strong></li>
+            <li><span>ค่าน้ำประปา:</span> <strong id="res-water">-</strong></li>
+            <li><span>ค่าอินเทอร์เน็ต:</span> <strong id="res-internet">-</strong></li>
+          </ul>
+          <div class="calc-total-row">
+            <span>รวมค่าใช้จ่ายต่อเดือน:</span>
+            <span id="res-total-monthly">-</span>
+          </div>
+          <div class="calc-total-row">
+            <span>หารเฉลี่ยคนละ:</span>
+            <span id="res-per-person">-</span>
+          </div>
+          <p id="res-deposit-note" class="field-hint"></p>
+        </div>
+      </section>
     </div>
   </main>
 
-  <footer>
-    <p>&copy; 2026 Dorm Finder - กลุ่มที่ 7 (กลุ่มหมูเด้ง) รายวิชา SC17332 Mini Project Smart Campus</p>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p><strong>Dorm Finder — ระบบค้นหาและเปรียบเทียบหอพักรอบมหาวิทยาลัยราชภัฏบ้านสมเด็จเจ้าพระยา</strong></p>
+        <p>รายวิชา SC17332 · Mini Project ท้ายภาค · กลุ่มที่ 7 (กลุ่มหมูเด้ง) · พัฒนาด้วย Vanilla HTML5, CSS3 และ JavaScript</p>
+      </div>
+      <div>
+        <p>ข้อมูลหอพักจริง 20 แห่ง รวบรวมจากประกาศทางการของหอพักบน <a href="https://www.renthub.in.th" target="_blank" rel="noopener noreferrer">Renthub Official</a></p>
+      </div>
+    </div>
   </footer>
-
-  <script src="js/main.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/data-service.js"></script>
+  <script src="js/dorm-detail.js"></script>
 </body>
 </html>

@@ -1,512 +1,921 @@
-/* CSS Custom Properties & Design Tokens */
+/* ==========================================================================
+   SC17332 Mini Project · กลุ่มที่ 7 (กลุ่มหมูเด้ง) — Dorm Finder
+   ไฟล์: css/style.css (Vanilla CSS ล้วน · Mobile-First · WCAG AA Accessible)
+   ========================================================================== */
+
 :root {
-  --primary: #2b6cb0;
-  --primary-hover: #2c5282;
-  --accent: #d69e2e;
-  --bg-color: #f7fafc;
-  --card-bg: #ffffff;
-  --text-main: #2d3748;
-  --text-muted: #718096;
-  --border-color: #e2e8f0;
-  --badge-bg: #e2e8f0;
-  --badge-text: #2d3748;
-  --best-bg: #f0fff4;
-  --best-border: #38a169;
-  --best-text: #22543d;
-  --focus-ring: #3182ce;
-  --danger: #e53e3e;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-  --radius: 8px;
-  --transition: all 0.2s ease-in-out;
+  /* สีหลัก (CSS Custom Properties ตามข้อกำหนด T4) */
+  --color-primary: #1e3a8a;
+  --color-primary-hover: #172554;
+  --color-primary-light: #eff6ff;
+  --color-secondary: #047857;
+  --color-secondary-hover: #065f46;
+  --color-secondary-light: #ecfdf5;
+  --color-accent: #b45309;
+  --color-accent-light: #fffbeb;
+  --color-danger: #b91c1c;
+  --color-danger-light: #fef2f2;
+
+  /* สีพื้นหลังและตัวอักษร (Contrast >= 7:1 ผ่านเกณฑ์ T3 Lighthouse >= 90) */
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f1f5f9;
+  --color-text: #0f172a;
+  --color-text-muted: #334155;
+  --color-border: #cbd5e1;
+  --color-focus: #2563eb;
+
+  /* ฟอนต์ ขนาด และระยะห่าง */
+  --font-sans: 'Prompt', 'Sarabun', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.12);
+  --transition-base: 0.2s ease-in-out;
+  --container-max: 1200px;
 }
 
-/* Reset & Base Styles */
-* {
+/* Reset & Base (ป้องกัน Horizontal Scroll ที่ 360px ตามข้อ T5) */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  line-height: 1.6;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
 }
 
-/* Accessibility Focus States */
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 3px solid var(--focus-ring);
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-base), background-color var(--transition-base);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* Focus-visible ชัดเจนสำหรับผู้ใช้คีย์บอร์ด (ข้อกำหนด T3 & T4) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--color-focus);
   outline-offset: 2px;
 }
 
-/* Skip Navigation Link */
+/* Skip Link สำหรับ Accessibility (T3) */
 .skip-link {
   position: absolute;
-  top: -40px;
-  left: 10px;
-  background: var(--primary);
-  color: white;
-  padding: 8px;
-  z-index: 1000;
+  top: -100px;
+  left: 1rem;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  z-index: 9999;
   text-decoration: none;
-  border-radius: 4px;
-}
-.skip-link:focus {
-  top: 10px;
 }
 
-/* Header & Navigation */
-header {
-  background-color: #ffffff;
-  border-bottom: 1px solid var(--border-color);
+.skip-link:focus {
+  top: 1rem;
+  color: #ffffff;
+}
+
+/* โครงสร้าง Container */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header & Navigation (ใช้ Flexbox ตามข้อ T4) */
+.site-header {
+  background-color: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: var(--shadow-sm);
 }
 
-.nav-container {
+.header-inner {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-.brand-title {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: var(--primary);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-nav {
-  margin-top: 0.8rem;
-}
-
-.nav-links {
-  display: flex;
-  list-style: none;
   gap: 0.75rem;
-  flex-wrap: wrap;
+  padding: 0.85rem 1rem;
 }
 
-.nav-links a {
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   text-decoration: none;
-  color: var(--text-main);
-  font-weight: 500;
-  padding: 0.4rem 0.8rem;
-  border-radius: var(--radius);
-  transition: var(--transition);
-
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 
-.nav-links a:hover, .nav-links a.active {
-  background-color: #ebf8ff;
-  color: var(--primary);
+.brand-badge {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 0.78rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
 }
 
-.badge {
-  background-color: var(--primary);
-  color: white;
-  font-size: 0.75rem;
-  padding: 0.15rem 0.45rem;
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.92rem;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+}
+
+.nav-link:hover {
+  background-color: var(--color-surface-alt);
+  color: var(--color-primary);
+}
+
+.nav-link[aria-current="page"],
+.nav-link.active {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.nav-compare-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-secondary);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.4rem;
   border-radius: 999px;
-  margin-left: 0.25rem;
 }
 
-/* Main Container */
+/* Main Layout */
 main {
   flex: 1;
-  max-width: 1280px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 1.5rem 1rem;
+  padding: 1.5rem 0 3rem;
 }
 
-/* Typography & Section Headings */
-h1 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
-  color: #1a202c;
+/* Hero Section (หน้าแรก) */
+.hero-section {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.25rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
 }
 
-h2 {
+.hero-section h1 {
+  font-size: 1.6rem;
+  line-height: 1.3;
+  margin-bottom: 0.65rem;
+}
+
+.hero-subtitle {
+  color: #e2e8f0;
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.hero-search-form {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+/* Headings & Section Titles */
+.page-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.page-header h1 {
+  font-size: 1.65rem;
+  color: var(--color-primary);
+  margin-bottom: 0.35rem;
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-header h2 {
   font-size: 1.35rem;
-  margin-bottom: 0.75rem;
-  color: #2d3748;
+  color: var(--color-text);
 }
 
-h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-.hero {
-  background: linear-gradient(135deg, #2b6cb0 0%, #2c5282 100%);
-  color: white;
-  padding: 2.5rem 1.5rem;
-  border-radius: var(--radius);
-  text-align: center;
+/* Stats Grid (ใช้ CSS Grid ตามข้อ T4) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
-.hero h1 {
-  color: white;
-  margin-bottom: 0.5rem;
+.stat-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 5px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
 }
 
-.hero p {
-  font-size: 1.1rem;
-  opacity: 0.95;
-  margin-bottom: 1.5rem;
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
 }
 
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: 0.2rem;
+}
+
+/* Forms & Inputs (ข้อกำหนด T2) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-label,
+legend {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--color-text);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid #64748b;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.form-control:hover {
+  border-color: var(--color-primary);
+}
+
+.form-control.input-error {
+  border-color: var(--color-danger);
+  background-color: var(--color-danger-light);
+}
+
+.field-hint {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.error-message {
+  font-size: 0.85rem;
+  color: var(--color-danger);
+  font-weight: 600;
+  min-height: 1.25rem;
+}
+
+fieldset {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  background-color: var(--color-surface);
+}
+
+legend {
+  padding: 0 0.4rem;
+}
+
+.checkbox-grid,
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  margin-top: 0.4rem;
+}
+
+.check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.check-label input[type="checkbox"],
+.check-label input[type="radio"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+/* Buttons (มี :hover, :focus-visible, transition ตามข้อ T4) */
 .btn {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.92rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  border: none;
-  transition: var(--transition);
-  font-size: 0.95rem;
-  text-align: center;
+  border: 1px solid transparent;
+  transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
 }
 
 .btn-primary {
-  background-color: var(--primary);
-  color: white;
+  background-color: var(--color-primary);
+  color: #ffffff;
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
+  background-color: var(--color-primary-hover);
+  color: #ffffff;
 }
 
 .btn-secondary {
-  background-color: #edf2f7;
-  color: var(--text-main);
-  border: 1px solid var(--border-color);
+  background-color: var(--color-secondary);
+  color: #ffffff;
 }
 
 .btn-secondary:hover {
-  background-color: #e2e8f0;
+  background-color: var(--color-secondary-hover);
+  color: #ffffff;
 }
 
 .btn-outline {
-  background: transparent;
-  border: 1.5px solid var(--primary);
-  color: var(--primary);
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .btn-outline:hover {
-  background: #ebf8ff;
+  background-color: var(--color-primary-light);
 }
 
-.btn-sm {
-  padding: 0.35rem 0.75rem;
-  font-size: 0.85rem;
+.btn-outline.is-selected {
+  background-color: var(--color-secondary);
+  color: #ffffff;
+  border-color: var(--color-secondary);
 }
 
-/* Layout Grids */
-.filter-layout {
+.btn-fav {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-fav.is-fav {
+  background-color: #fff1f2;
+  color: #be123c;
+  border-color: #fda4af;
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+/* Filter Panel (หน้า dorms.html) */
+.filter-panel {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.card-grid {
+.filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Dorm Cards Grid (CSS Grid ตามข้อ T4 & T5) */
+.dorm-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
 }
 
-/* Card Component */
 .dorm-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  transition: var(--transition);
-  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
 .dorm-card:hover {
-  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-.dorm-img-wrapper {
+.dorm-card-img-wrap {
   position: relative;
-  width: 100%;
-  height: 200px;
-  background-color: #cbd5e0;
+  height: 190px;
+  background-color: #e2e8f0;
+  overflow: hidden;
 }
 
-.dorm-img {
+.dorm-card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.badge-value-tag {
+.card-badges-top {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: #2f855a;
-  color: white;
-  padding: 0.25rem 0.6rem;
-  font-size: 0.75rem;
-  font-weight: bold;
-  border-radius: 4px;
-}
-
-.fav-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255,255,255,0.9);
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
+  top: 0.65rem;
+  left: 0.65rem;
+  right: 0.65rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  transition: var(--transition);
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
-.dorm-info {
-  padding: 1.25rem;
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.badge-room-air {
+  background-color: #1e3a8a;
+  color: #ffffff;
+}
+
+.badge-room-fan {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+.badge-value {
+  background-color: #047857;
+  color: #ffffff;
+}
+
+.badge-rating {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+.dorm-card-body {
+  padding: 1.15rem;
   display: flex;
   flex-direction: column;
   flex: 1;
+  gap: 0.65rem;
 }
 
-.dorm-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.3rem;
+.dorm-card-title {
+  font-size: 1.15rem;
+  line-height: 1.35;
+  color: var(--color-text);
 }
 
-.dorm-meta {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  margin-bottom: 0.75rem;
-  display: flex;
-  gap: 1rem;
+.dorm-card-address {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
 }
 
-.dorm-price {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: var(--primary);
-  margin-bottom: 0.75rem;
+.dorm-meta-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  background-color: var(--color-surface-alt);
+  padding: 0.65rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
 }
 
-.facilities-list {
+.facility-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 1rem;
+  gap: 0.35rem;
+  list-style: none;
 }
 
 .facility-tag {
-  background-color: #edf2f7;
-  color: #4a5568;
-  font-size: 0.75rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.18rem 0.5rem;
+  border-radius: var(--radius-sm);
 }
 
-.dorm-actions {
+.dorm-card-actions {
   margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
   display: flex;
-  gap: 0.5rem;
   flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-/* Form Styles */
-.form-panel {
-  background: var(--card-bg);
-  padding: 1.25rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border-color);
-  margin-bottom: 1.5rem;
+.dorm-card-actions .btn {
+  flex: 1 1 auto;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.65rem;
 }
 
-.form-group {
+/* หน้ารายละเอียดหอพัก & เครื่องคำนวณค่าใช้จ่าย (dorm.html) */
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.detail-card,
+.calculator-card,
+.review-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.detail-hero-img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
   margin-bottom: 1rem;
 }
 
-.form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.35rem;
-  font-size: 0.95rem;
-}
-
-.form-control {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  font-size: 0.95rem;
-}
-
-.checkbox-group {
+.info-dl {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  margin: 1rem 0;
 }
 
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-weight: normal;
-  font-size: 0.9rem;
-  cursor: pointer;
+.info-item {
+  background-color: var(--color-surface-alt);
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
 }
 
-/* Table / Comparison Page Styles */
-.table-responsive {
-  overflow-x: auto;
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  border: 1px solid var(--border-color);
-}
-
-table.compare-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-table.compare-table caption {
-  padding: 1rem;
-  font-weight: bold;
-  font-size: 1.1rem;
-  text-align: left;
-  background: #edf2f7;
-  border-bottom: 1px solid var(--border-color);
-}
-
-table.compare-table th, table.compare-table td {
-  padding: 0.9rem 1rem;
-  border: 1px solid var(--border-color);
-  font-size: 0.95rem;
-}
-
-table.compare-table th[scope="col"] {
-  background-color: #f8fafc;
-  min-width: 180px;
-}
-
-table.compare-table th[scope="row"] {
-  background-color: #f7fafc;
+.info-item dt {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
   font-weight: 600;
-  width: 180px;
 }
 
-/* Best Value Highlight in Table (Color + Text) */
-.best-cell {
-  background-color: var(--best-bg) !important;
-  border: 2px solid var(--best-border) !important;
+.info-item dd {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-top: 0.15rem;
 }
 
-.best-badge {
-  display: inline-block;
-  background-color: var(--best-border);
-  color: white;
-  font-size: 0.75rem;
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
-  font-weight: bold;
-  margin-top: 0.25rem;
+.calc-result-box {
+  background-color: var(--color-secondary-light);
+  border: 2px solid var(--color-secondary);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  margin-top: 1.25rem;
 }
 
-/* Toast Notifications */
-.toast-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
+.calc-breakdown {
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dashed var(--color-secondary);
 }
 
-.toast {
-  background-color: #2d3748;
-  color: white;
-  padding: 0.8rem 1.2rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
-  font-size: 0.9rem;
-  animation: fadeIn 0.3s ease-out;
+.calc-breakdown li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.calc-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-secondary-hover);
+  margin-bottom: 0.4rem;
+}
+
+/* ตารางเปรียบเทียบหอพัก (compare.html - ข้อกำหนด F4) */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.compare-table caption {
+  text-align: left;
+  padding: 1rem 1.25rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  background-color: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.compare-table thead th {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.compare-table tbody th {
+  background-color: var(--color-surface-alt);
+  font-weight: 700;
+  width: 220px;
+}
+
+/* ไฮไลต์ค่าที่ดีที่สุดด้วยทั้งสีและข้อความ (ข้อกำหนด F4 & T3) */
+.compare-table td.best-value-cell {
+  background-color: var(--color-secondary-light);
+  border: 2px solid var(--color-secondary);
+  font-weight: 700;
+}
+
+.best-text-indicator {
+  display: inline-block;
+  margin-left: 0.4rem;
+  background-color: var(--color-secondary);
+  color: #ffffff;
+  font-size: 0.76rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* หน้ารีวิวหอพัก (review.html - ข้อกำหนด F6) */
+.review-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.review-item {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.review-item-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Alert / Status Banner */
+.status-banner {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status-banner.info {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid #93c5fd;
+}
+
+.status-banner.error {
+  background-color: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid #fca5a5;
+}
+
+.status-banner.success {
+  background-color: var(--color-secondary-light);
+  color: var(--color-secondary-hover);
+  border: 1px solid #6ee7b7;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1.25rem;
+  background-color: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 /* Footer */
-footer {
-  background-color: #ffffff;
-  border-top: 1px solid var(--border-color);
-  padding: 1.5rem 1rem;
-  text-align: center;
+.site-footer {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  padding: 2rem 0;
   margin-top: auto;
   font-size: 0.9rem;
-  color: var(--text-muted);
 }
 
-/* Responsive Breakpoints (T5: 360px, 768px, 1280px) */
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.site-footer a {
+  color: #93c5fd;
+}
+
+/* ==========================================================================
+   Breakpoints สำหรับ Responsive Design (ข้อกำหนด T5: 360px / 768px / 1280px)
+   ========================================================================== */
+
+/* Breakpoint ที่ 1: Tablet (768px ขึ้นไป) */
 @media (min-width: 768px) {
-  .nav-container {
+  .header-inner {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
-  
-  nav {
-    margin-top: 0;
+
+  .hero-section {
+    padding: 2.5rem 2rem;
   }
 
-  .filter-layout {
-    grid-template-columns: 280px 1fr;
+  .hero-section h1 {
+    font-size: 2rem;
   }
 
-  .card-grid {
+  .hero-search-form {
+    grid-template-columns: 2fr 1fr auto;
+    align-items: end;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .filter-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
-  .dorm-detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+
+  .dorm-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .info-dl {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
+/* Breakpoint ที่ 2: Desktop (1280px ขึ้นไป) */
 @media (min-width: 1280px) {
-  .card-grid {
+  .filter-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .dorm-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .detail-layout {
+    grid-template-columns: 7fr 5fr;
+    align-items: start;
+  }
+
+  .review-layout {
+    grid-template-columns: 5fr 7fr;
+    align-items: start;
   }
 }
