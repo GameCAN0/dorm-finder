@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dorm Finder - ค้นหา เปรียบเทียบ และประมาณค่าใช้จ่ายหอพักรอบมหาวิทยาลัย">
+  <title>Dorm Finder - ค้นหาและเปรียบเทียบหอพักรอบมหาวิทยาลัย</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="index">
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
+
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand-title">
+        <span>🏠 Dorm Finder</span>
+      </a>
+      <nav aria-label="เมนูหลัก">
+        <ul class="nav-links">
+          <li><a href="index.html" class="active" aria-current="page">หน้าแรก</a></li>
+          <li><a href="dorms.html">ค้นหาหอพัก</a></li>
+          <li><a href="compare.html">เปรียบเทียบ <span id="compare-badge" class="badge">0</span></a></li>
+          <li><a href="review.html">รีวิวหอพัก</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero">
+      <h1>ค้นหาและเปรียบเทียบหอพักรอบมหาลัยง่ายๆ</h1>
+      <p>รวบรวมข้อมูลหอพักจริง ค่าเช่า ค่าน้ำ ค่าไฟ พร้อมเครื่องคำนวณค่าใช้จ่ายรายเดือน</p>
+      <a href="dorms.html" class="btn btn-primary">เริ่มต้นค้นหาหอพักเลย</a>
+    </section>
+
+    <section aria-labelledby="featured-heading">
+      <h2 id="featured-heading">หอพักแนะนำใกล้ มหาวิทยาลัย</h2>
+      <div id="featured-grid" class="card-grid">
+        <!-- Rendered via JS -->
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="dorms.html" class="btn btn-secondary">ดูหอพักทั้งหมด 15 แห่ง →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Dorm Finder - กลุ่มที่ 7 (กลุ่มหมูเด้ง) รายวิชา SC17332 Mini Project Smart Campus</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

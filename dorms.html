@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="รายการหอพักทั้งหมด ค้นหา กรองตามสิ่งอำนวยความสะดวก และเรียงลำดับ">
+  <title>รายการหอพักทั้งหมด - Dorm Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="dorms">
+  <a href="#main-content" class="skip-link">ข้ามไปเนื้อหาหลัก</a>
+
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand-title">
+        <span>🏠 Dorm Finder</span>
+      </a>
+      <nav aria-label="เมนูหลัก">
+        <ul class="nav-links">
+          <li><a href="index.html">หน้าแรก</a></li>
+          <li><a href="dorms.html" class="active" aria-current="page">ค้นหาหอพัก</a></li>
+          <li><a href="compare.html">เปรียบเทียบ <span id="compare-badge" class="badge">0</span></a></li>
+          <li><a href="review.html">รีวิวหอพัก</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <h1>รายการหอพักทั้งหมดรอบมหาวิทยาลัย</h1>
+
+    <div class="filter-layout">
+      <!-- Filter Sidebar (Form Panel) -->
+      <aside class="form-panel" aria-label="ตัวกรองการค้นหา">
+        <h2>🔍 กรองข้อมูลหอพัก</h2>
+        
+        <div class="form-group">
+          <label for="search-input">ค้นหาชื่อหอพัก:</label>
+          <input type="text" id="search-input" class="form-control" placeholder="พิมพ์ชื่อหอพัก..." />
+        </div>
+
+        <div class="form-group">
+          <label for="max-price">ค่าเช่าสูงสุด: <span id="price-val" style="color:var(--primary); font-weight:bold;">฿6,000</span></label>
+          <input type="range" id="max-price" min="2000" max="6000" step="100" value="6000" style="width:100%;" />
+        </div>
+
+        <div class="form-group">
+          <label for="max-distance">ระยะทางสูงสุด (กม.):</label>
+          <input type="number" id="max-distance" class="form-control" placeholder="เช่น 1.5" step="0.1" min="0" />
+        </div>
+
+        <div class="form-group">
+          <label for="room-type">ประเภทห้องพัก:</label>
+          <select id="room-type" class="form-control">
+            <option value="all">ทั้งหมด</option>
+            <option value="แอร์">ห้องแอร์</option>
+            <option value="พัดลม">ห้องพัดลม</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <fieldset style="border:none; padding:0; margin:0;">
+            <legend style="font-weight:600; font-size:0.95rem; margin-bottom:0.35rem;">สิ่งอำนวยความสะดวกที่ต้องมี:</legend>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" value="Wi-Fi" class="facility-checkbox"> Wi-Fi</label>
+              <label class="checkbox-label"><input type="checkbox" value="ที่จอดรถ" class="facility-checkbox"> ที่จอดรถ</label>
+              <label class="checkbox-label"><input type="checkbox" value="เครื่องซักผ้า" class="facility-checkbox"> เครื่องซักผ้า</label>
+              <label class="checkbox-label"><input type="checkbox" value="กล้องวงจรปิด" class="facility-checkbox"> กล้องวงจรปิด</label>
+              <label class="checkbox-label"><input type="checkbox" value="ลิฟต์" class="facility-checkbox"> ลิฟต์</label>
+              <label class="checkbox-label"><input type="checkbox" value="ฟิตเนส" class="facility-checkbox"> ฟิตเนส</label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="form-group">
+          <label for="sort-select">เรียงลำดับตาม:</label>
+          <select id="sort-select" class="form-control">
+            <option value="rent-asc">ค่าเช่า: น้อย -> มาก</option>
+            <option value="rent-desc">ค่าเช่า: มาก -> น้อย</option>
+            <option value="dist-asc">ระยะทาง: ใกล้ -> ไกล</option>
+          </select>
+        </div>
+      </aside>
+
+      <!-- Main Results Grid -->
+      <section aria-labelledby="results-heading">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <h2 id="results-heading">ผลการค้นหา</h2>
+          <span id="dorm-count" style="font-weight:600; color:var(--text-muted);">กำลังโหลด...</span>
+        </div>
+        <div id="dorm-grid" class="card-grid">
+          <!-- JS Rendered Cards -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Dorm Finder - กลุ่มที่ 7 (กลุ่มหมูเด้ง) รายวิชา SC17332 Mini Project Smart Campus</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
