@@ -7,18 +7,49 @@
 
 | ลำดับ | ชื่อ–นามสกุล | รหัสนักศึกษา | GitHub Username | บทบาทและความรับผิดชอบหลัก |
 | :---: | :--- | :---: | :---: | :--- |
-| 1 | สมาชิกคนที่ 1 (กรอกชื่อจริง) | `66xxxxxxx1` | `@member1` | โครงสร้าง Semantic HTML5 กลาง และหน้าแรก `index.html` + `js/index.js` |
-| 2 | สมาชิกคนที่ 2 (กรอกชื่อจริง) | `66xxxxxxx2` | `@member2` | ระบบ CSS (`css/style.css`), ตัวแปรสี, Flexbox, Grid และ Responsive 3 ขนาด |
-| 3 | สมาชิกคนที่ 3 (กรอกชื่อจริง) | `66xxxxxxx3` | `@member3` | ระบบ `fetch` ข้อมูล (`js/data-service.js`) และหน้า `dorms.html` + `js/dorms.js` (F1, F2) |
-| 4 | สมาชิกคนที่ 4 (กรอกชื่อจริง) | `66xxxxxxx4` | `@member4` | ระบบ `localStorage` (`js/storage.js`) และหน้าเปรียบเทียบ `compare.html` + `js/compare.js` (F3, F4) |
-| 5 | สมาชิกคนที่ 5 (กรอกชื่อจริง) | `66xxxxxxx5` | `@member5` | หน้ารายละเอียดและเครื่องคำนวณค่าใช้จ่าย `dorm.html` + `js/dorm-detail.js` (F5 + Google Maps) |
-| 6 | สมาชิกคนที่ 6 (กรอกชื่อจริง) | `66xxxxxxx6` | `@member6` | หน้าฟอร์มรีวิว `review.html` + `js/review.js` (F6), ตรวจ Lighthouse และจัดทำเอกสาร |
+| 1 | นายพีระพัฒน์ แก้วมะ | `6721207009` | `@peeraphat6721207009` | โครงสร้าง Semantic HTML5 กลาง (`header`, `nav`, `footer`), หน้าแรก `index.html` + `js/index.js`, และออกแบบระบบ CSS (`css/style.css` ตัวแปรสี, Flexbox, Grid, Responsive 3 ขนาดหน้าจอ) |
+| 2 | นายเกรียงไกร แซ่แต้ | `6721207012` | `@kriangkrai6721207012` | ระบบดึงข้อมูล `fetch('data/dorms.json')` (`js/data-service.js`), หน้าแสดงรายการหอพักทั้งหมด `dorms.html` + `js/dorms.js` (สร้างการ์ดด้วย DOM F1, ตัวกรองหลายเงื่อนไขและเรียงลำดับ F2, ป้ายคุ้มค่า) |
+| 3 | นายธีรภัทร ศรีวิจารย์ | `6721207018` | `@theeraphat6721207018` | ระบบจัดการ `localStorage` (`js/storage.js` ปุ่มเพิ่มเพื่อเปรียบเทียบสูงสุด 3 แห่ง F3 และระบบรายการโปรด), และหน้าตารางเปรียบเทียบหอพัก `compare.html` + `js/compare.js` (ตาราง `<table>` ตามหลัก a11y และไฮไลต์ค่าดีที่สุด F4) |
+| 4 | นายรัชพล อัครเศรณี | `6721207019` | `@ratchaphon6721207019` | หน้ารายละเอียดหอพักและเครื่องคำนวณค่าใช้จ่ายรายเดือน `dorm.html` + `js/dorm-detail.js` (คำนวณค่าเช่า+ค่าไฟ+ค่าน้ำ+ค่าเน็ตและหารต่อคน F5 พร้อม HTML/JS Validation และปุ่มเปิดเส้นทาง Google Maps) |
+| 5 | นายพลทฤทธิ์ บุตรพงศ์นรา | `6721207022` | `@phontharit6721207022` | หน้าฟอร์มรีวิวหอพักและคะแนนเฉลี่ย `review.html` + `js/review.js` (ฟอร์มรีวิว radio/select/textarea พร้อม Validation และคำนวณค่าเฉลี่ย F6), ตรวจสอบ Lighthouse Accessibility ≥ 90 ทุกหน้า และจัดทำเอกสาร `README.md` / `AI_LOG.md` |
 
 ## 2. ลิงก์เว็บไซต์บน GitHub Pages
 * **GitHub Repository**: `https://github.com/<username>/smart-campus-dorm-finder`
 * **GitHub Pages URL**: `https://<username>.github.io/smart-campus-dorm-finder/`
 
-## 3. รายการฟีเจอร์ที่พัฒนาครบถ้วน (F1–F6 และฟีเจอร์เสริมครบ 3 ข้อ)
+## 3. โครงสร้างไฟล์ใน Repository
+
+```text
+smart-campus-dorm-finder/
+├── index.html                  # หน้าแรก: ช่องค้นหาด่วน, สถิติภาพรวม, หอพักแนะนำ, ปุ่มไปหน้าเปรียบเทียบ
+├── dorms.html                  # รายการหอพักทั้งหมด (20 แห่ง) พร้อมตัวกรองหลายเงื่อนไขและการเรียงลำดับ
+├── dorm.html                   # รายละเอียดหอพัก, ปุ่มนำทาง Google Maps และเครื่องคำนวณค่าใช้จ่ายรายเดือน
+├── compare.html                # ตารางเปรียบเทียบหอพักที่เลือก (สูงสุด 3 แห่ง)
+├── review.html                 # ฟอร์มรีวิวหอพักและรายการรีวิวล่าสุดพร้อมคะแนนเฉลี่ย
+├── css/
+│   └── style.css               # ไฟล์ CSS ภายนอก (CSS Custom Properties, Flexbox, Grid, Mobile-first Responsive)
+├── js/
+│   ├── storage.js              # จัดการ localStorage (รายการเปรียบเทียบ F3, รีวิว F6, รายการโปรด)
+│   ├── data-service.js         # ดึงข้อมูลด้วย fetch('data/dorms.json') และสร้างการ์ดหอพักด้วย DOM (F1)
+│   ├── index.js                # ควบคุมหน้าแรก index.html
+│   ├── dorms.js                # ควบคุมการค้นหา กรองหลายเงื่อนไข และเรียงลำดับในหน้า dorms.html (F2)
+│   ├── dorm-detail.js          # ควบคุมหน้ารายละเอียดและเครื่องคำนวณค่าใช้จ่ายรายเดือนใน dorm.html (F5)
+│   ├── compare.js              # ควบคุมการสร้างตารางเปรียบเทียบและไฮไลต์ค่าดีที่สุดใน compare.html (F4)
+│   └── review.js               # ควบคุมฟอร์มรีวิว Validation และการคำนวณคะแนนเฉลี่ยใน review.html (F6)
+├── data/
+│   └── dorms.json              # ข้อมูลหอพักจริง 20 แห่งรอบ มรภ.บ้านสมเด็จเจ้าพระยา
+├── images/                     # โฟลเดอร์เก็บภาพหน้าจอผลคะแนน Lighthouse
+├── reflections/                # บันทึก AI Reflection รายบุคคลของสมาชิกทั้ง 5 คน
+│   ├── 6721207009.md           # นายพีระพัฒน์ แก้วมะ
+│   ├── 6721207012.md           # นายเกรียงไกร แซ่แต้
+│   ├── 6721207018.md           # นายธีรภัทร ศรีวิจารย์
+│   ├── 6721207019.md           # นายรัชพล อัครเศรณี
+│   └── 6721207022.md           # นายพลทฤทธิ์ บุตรพงศ์นรา
+├── AI_LOG.md                   # ตารางบันทึกการใช้ AI ของกลุ่ม (ครบสมาชิกทั้ง 5 คน)
+└── README.md                   # เอกสารอธิบายโปรเจกต์
+```
+
+## 4. รายการฟีเจอร์ที่พัฒนาครบถ้วน (F1–F6 และฟีเจอร์เสริมครบ 3 ข้อ)
 
 ### ฟีเจอร์บังคับ (F1–F6)
 * **F1 — ดึงข้อมูลด้วย `fetch` และสร้างการ์ดด้วย DOM**: ดึงข้อมูลจาก `data/dorms.json` (20 หอพักจริง) พร้อมจัดการกรณีโหลดไม่สำเร็จ (`try/catch`) และสร้างการ์ดด้วย `document.createElement()`
@@ -33,10 +64,10 @@
 2. **ปุ่มเปิดเส้นทางจากหอพักไปมหาวิทยาลัยใน Google Maps**: ใช้พิกัดละติจูดและลองจิจูดจริงของหอพักเชื่อมต่อไปยังมหาวิทยาลัยราชภัฏบ้านสมเด็จเจ้าพระยา
 3. **ระบบรายการโปรด (Favorites)**: กดบันทึกหอพักที่สนใจเก็บไว้ใน `localStorage` พร้อมตัวกรองแสดงเฉพาะรายการโปรดในหน้า `dorms.html`
 
-## 4. แหล่งที่มาของข้อมูลจริงและรูปภาพ (ข้อกำหนด T8)
+## 5. แหล่งที่มาของข้อมูลจริงและรูปภาพ (ข้อกำหนด T8)
 * **ข้อมูลหอพักจริง 20 แห่ง (`data/dorms.json`)**: รวบรวมข้อมูลค่าเช่า เงินประกัน อัตราค่าน้ำ-ค่าไฟ สิ่งอำนวยความสะดวก และช่องทางติดต่อทางการของหอพักรอบมหาวิทยาลัยราชภัฏบ้านสมเด็จเจ้าพระยา (เขตธนบุรี, คลองสาน, บางกอกใหญ่, บางกอกน้อย) จากประกาศทางการบนเว็บไซต์ [Renthub Official](https://www.renthub.in.th) (ระบุลิงก์ `sourceUrl` ไว้ในทุกอ็อบเจกต์ของ `data/dorms.json`)
-* **รูปภาพประกอบ**: ใช้ภาพห้องพักภายใต้สัญญาอนุญาตใช้งานฟรีเพื่อการศึกษาจาก [Unsplash License](https://unsplash.com/license) พร้อมระบุข้อความ `alt` ที่สื่อความหมายตามบริบททุกภาพ
+* **รูปภาพประกอบ (`images/`)**: ใช้ภาพถ่ายอาคารและห้องพักของหอพักทั้ง 20 แห่งในโฟลเดอร์ `images/` (เช่น `images/phornsiri.webp`, `images/d-house.jpg`, `images/warapat.webp`, `images/bb golden place.webp`, `images/NV Mansion.webp`, `images/K.R. Living.webp`, `images/Speed One.jpg` และ `images/room1.webp`–`room13.jpg`) พร้อมระบุข้อความ `alt` ที่สื่อความหมายตามบริบททุกภาพ
 
-## 5. ผลคะแนน Lighthouse (Accessibility ≥ 90 ทุกหน้า)
+## 6. ผลคะแนน Lighthouse (Accessibility ≥ 90 ทุกหน้า)
 > นำภาพหน้าจอผลการตรวจ Lighthouse (หมวด Accessibility) ของหน้าหลักมาวางในโฟลเดอร์ `images/lighthouse-score.png` แล้วอ้างอิงดังนี้:
 > `![ผลคะแนน Lighthouse Accessibility หน้าแรก](images/lighthouse-score.png)`
