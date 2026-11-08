@@ -1,0 +1,1189 @@
+/* ==========================================================================
+   SC17332 Mini Project · กลุ่มที่ 7 (กลุ่มหมูเด้ง) — Dorm Finder
+   ไฟล์: css/style.css
+   ดีไซน์: Warm Sage & Sand Living Theme (สบายตา อ่านง่าย ไม่ซ้ำแพตเทิร์น AI)
+   ========================================================================== */
+
+:root {
+  /* โทนสีหลัก (CSS Custom Properties ตามข้อกำหนด T4) */
+  --color-primary: #0f5132;          /* Deep Forest Sage - สบายตา น่าเชื่อถือ คอนทราสต์สูง (9.1:1) */
+  --color-primary-hover: #0a3622;    /* Darker Forest เมื่อ hover */
+  --color-primary-light: #e8f3ee;    /* Mint Tint อ่อนละมุน */
+  --color-secondary: #b45309;        /* Warm Terracotta Amber สำหรับปุ่มรองและป้ายสำคัญ */
+  --color-secondary-hover: #92400e;
+  --color-secondary-light: #fef3c7;
+  --color-accent: #1d4ed8;           /* Royal Blue สำหรับป้ายห้องแอร์ */
+  --color-accent-light: #eff6ff;
+  --color-danger: #b91c1c;           /* สีแจ้งเตือนข้อผิดพลาด */
+  --color-danger-light: #fef2f2;
+
+  /* พื้นหลังโทนอุ่นถนอมสายตา (Warm Alabaster & Soft Ivory) */
+  --color-bg: #f7f5f0;               /* สีครีมอ่อนสบายตา ไม่แสบตาเหมือนขาวจ้า */
+  --color-surface: #ffffff;          /* พื้นหลังการ์ดและตาราง */
+  --color-surface-alt: #f0ede6;      /* พื้นหลังส่วนย่อยโทนอุ่น */
+  --color-text: #1c1917;             /* Charcoal Ink อ่านง่าย สบายตา */
+  --color-text-muted: #57534e;       /* Warm Stone Gray (ผ่าน WCAG AA Contrast > 5.5:1) */
+  --color-border: #e2ddd5;           /* เส้นขอบโทนอุ่นนุ่มนวล */
+  --color-focus: #0f5132;
+
+  /* ฟอนต์ ขนาด และระยะห่าง */
+  --font-sans: 'Prompt', 'Sarabun', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-sm: 0 2px 6px rgba(28, 25, 23, 0.05);
+  --shadow-md: 0 8px 24px rgba(28, 25, 23, 0.08);
+  --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --container-max: 1200px;
+}
+
+/* Reset & Base (ป้องกัน Horizontal Scroll ที่ 360px ตามข้อ T5) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.65;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+
+/* ป้องกันไม่ให้ display: flex หรือ display: grid ไปทับแอตทริบิวต์ [hidden] */
+[hidden] {
+  display: none !important;
+}
+
+/* รองรับกรณีไฟล์ HTML เก่าใช้คลาส .brand-badge เพื่อไม่ให้การแสดงผลเพี้ยน */
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid #b7dfd0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-base), background-color var(--transition-base);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* Focus-visible ชัดเจนสำหรับผู้ใช้คีย์บอร์ด (ข้อกำหนด T3 & T4) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Skip Link สำหรับ Accessibility (T3) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  z-index: 9999;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 1rem;
+  color: #ffffff;
+}
+
+/* โครงสร้าง Container */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* ==========================================================================
+   Header & Navigation โฉมใหม่ — เรียงบรรทัดเดียวสวยงาม ไม่ตัดคำ ไม่เหมือนเว็บ AI
+   ========================================================================== */
+.site-header {
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(28, 25, 23, 0.04);
+}
+
+.header-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+}
+
+/* โลโก้แบบ Editorial — ไม่มีกล่องป้ายทึบที่ตัดคำว่า "หมู / เด้ง" */
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--color-text);
+  min-width: 0;
+}
+
+.brand-link:hover {
+  color: var(--color-primary);
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(15, 81, 50, 0.22);
+}
+
+.brand-mark svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.brand-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.brand-name {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.brand-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  border: 1px solid #b7dfd0;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.brand-sub {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* แถบเมนูนำทาง — กระชับ เรียงสวยในแถวเดียว มีเส้นขีดล่างเวลากดเลือก */
+.main-nav {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.main-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color var(--transition-base), background-color var(--transition-base), border-color var(--transition-base);
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+  background-color: var(--color-surface-alt);
+}
+
+.nav-link[aria-current="page"],
+.nav-link.active {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  border-bottom-color: var(--color-primary);
+  font-weight: 700;
+}
+
+.nav-compare-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-secondary);
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 700;
+  min-width: 1.55rem;
+  height: 1.35rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+/* Main Layout */
+main {
+  flex: 1;
+  padding: 1.5rem 0 3.5rem;
+}
+
+/* Hero Section — โทนสว่างอบอุ่น อ่านง่าย ไม่มืดทึบ */
+.hero-section {
+  background: linear-gradient(135deg, #e8f3ee 0%, #f5efe6 100%);
+  border: 1px solid #cde3d8;
+  color: var(--color-text);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.25rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  background-color: #ffffff;
+  color: var(--color-primary);
+  border: 1px solid #b7dfd0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+.hero-section h1 {
+  font-size: 1.55rem;
+  line-height: 1.35;
+  color: var(--color-primary);
+  margin-bottom: 0.6rem;
+}
+
+.hero-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.98rem;
+  margin-bottom: 1.35rem;
+  max-width: 780px;
+}
+
+.hero-search-form {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  padding: 1.15rem;
+  border-radius: var(--radius-md);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Headings & Section Titles */
+.page-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-header h1,
+.page-header h2 {
+  font-size: 1.6rem;
+  color: var(--color-primary);
+  margin-bottom: 0.35rem;
+}
+
+.page-header p {
+  color: var(--color-text-muted);
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-header h2,
+.section-header h3 {
+  font-size: 1.3rem;
+  color: var(--color-text);
+}
+
+/* Stats Grid (ใช้ CSS Grid ตามข้อ T4) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 2.25rem;
+}
+
+.stat-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-label {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: 0.2rem;
+}
+
+/* Forms & Inputs (ข้อกำหนด T2) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-label,
+legend {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #a8a29e;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.form-control:hover {
+  border-color: var(--color-primary);
+}
+
+.form-control:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(15, 81, 50, 0.14);
+}
+
+.form-control.input-error {
+  border-color: var(--color-danger);
+  background-color: var(--color-danger-light);
+}
+
+.field-hint {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.error-message {
+  font-size: 0.85rem;
+  color: var(--color-danger);
+  font-weight: 600;
+  min-height: 1.25rem;
+}
+
+fieldset {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem;
+  background-color: var(--color-surface-alt);
+}
+
+legend {
+  padding: 0 0.45rem;
+  background-color: var(--color-surface);
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+}
+
+.checkbox-grid,
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.1rem;
+  margin-top: 0.4rem;
+}
+
+.check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.92rem;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.check-label input[type="checkbox"],
+.check-label input[type="radio"] {
+  width: 1.12rem;
+  height: 1.12rem;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+/* Buttons (มี :hover, :focus-visible, transition ตามข้อ T4) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.05rem;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: #ffffff;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-hover);
+  color: #ffffff;
+}
+
+.btn-outline {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary-light);
+}
+
+.btn-outline.is-selected {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  font-weight: 700;
+}
+
+.btn-fav {
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.btn-fav:hover {
+  border-color: #e11d48;
+  color: #be123c;
+}
+
+.btn-fav.is-fav {
+  background-color: #fff1f2;
+  color: #be123c;
+  border-color: #fda4af;
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+/* Filter Panel (หน้า dorms.html) */
+.filter-panel {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Dorm Cards Grid (CSS Grid ตามข้อ T4 & T5) */
+.dorm-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.35rem;
+}
+
+.dorm-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.dorm-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: #b7dfd0;
+}
+
+.dorm-card-img-wrap {
+  position: relative;
+  height: 195px;
+  background-color: #e7e5e4;
+  overflow: hidden;
+}
+
+.dorm-card-
+/* ป้องกันไม่ให้ display: flex หรือ display: grid ไปทับแอตทริบิวต์ [hidden] */
+[hidden] {
+  display: none !important;
+}
+
+/* รองรับกรณีไฟล์ HTML เก่าใช้คลาส .brand-badge เพื่อไม่ให้การแสดงผลเพี้ยน */
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid #b7dfd0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-badges-top {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  right: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.badge-room-air {
+  background-color: #1e40af;
+  color: #ffffff;
+}
+
+.badge-room-fan {
+  background-color: #44403c;
+  color: #ffffff;
+}
+
+.badge-value {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.badge-rating {
+  background-color: #fffbeb;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+.dorm-card-body {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.7rem;
+}
+
+.dorm-card-title {
+  font-size: 1.12rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.dorm-card-address {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.dorm-meta-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  background-color: var(--color-surface-alt);
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+}
+
+.facility-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+}
+
+.facility-tag {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+}
+
+.dorm-card-actions {
+  margin-top: auto;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.dorm-card-actions .btn {
+  flex: 1 1 auto;
+  font-size: 0.84rem;
+  padding: 0.55rem 0.65rem;
+}
+
+/* หน้ารายละเอียดหอพัก & เครื่องคำนวณค่าใช้จ่าย (dorm.html) */
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.detail-card,
+.calculator-card,
+.review-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.4rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.detail-hero-
+/* ป้องกันไม่ให้ display: flex หรือ display: grid ไปทับแอตทริบิวต์ [hidden] */
+[hidden] {
+  display: none !important;
+}
+
+/* รองรับกรณีไฟล์ HTML เก่าใช้คลาส .brand-badge เพื่อไม่ให้การแสดงผลเพี้ยน */
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid #b7dfd0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.1rem;
+}
+
+.info-dl {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+  margin: 1rem 0;
+}
+
+.info-item {
+  background-color: var(--color-surface-alt);
+  padding: 0.8rem 0.95rem;
+  border-radius: var(--radius-sm);
+}
+
+.info-item dt {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.info-item dd {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-top: 0.15rem;
+}
+
+.calc-result-box {
+  background-color: var(--color-primary-light);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: 1.2rem;
+  margin-top: 1.25rem;
+}
+
+.calc-breakdown {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dashed var(--color-primary);
+}
+
+.calc-breakdown li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.94rem;
+}
+
+.calc-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.35rem;
+}
+
+/* ตารางเปรียบเทียบหอพัก (compare.html - ข้อกำหนด F4) */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.compare-table caption {
+  text-align: left;
+  padding: 1rem 1.25rem;
+  font-weight: 700;
+  font-size: 1.02rem;
+  background-color: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.compare-table thead th {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.compare-table tbody th {
+  background-color: var(--color-surface-alt);
+  font-weight: 700;
+  width: 220px;
+  color: var(--color-text);
+}
+
+/* ไฮไลต์ค่าที่ดีที่สุดด้วยทั้งสีและข้อความ (ข้อกำหนด F4 & T3) */
+.compare-table td.best-value-cell {
+  background-color: var(--color-primary-light);
+  border: 2px solid var(--color-primary);
+  font-weight: 700;
+}
+
+.best-text-indicator {
+  display: inline-block;
+  margin-left: 0.4rem;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* หน้ารีวิวหอพัก (review.html - ข้อกำหนด F6) */
+.review-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.review-item {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.review-item-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Alert / Status Banner */
+.status-banner {
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status-banner.info {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid #a7f3d0;
+}
+
+.status-banner.error {
+  background-color: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid #fca5a5;
+}
+
+.status-banner.success {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid #6ee7b7;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1.25rem;
+  background-color: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+}
+
+/* Footer */
+.site-footer {
+  background-color: #1c1917;
+  color: #e7e5e4;
+  padding: 2rem 0;
+  margin-top: auto;
+  font-size: 0.9rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.site-footer a {
+  color: #86efac;
+}
+
+/* ==========================================================================
+   Breakpoints สำหรับ Responsive Design (ข้อกำหนด T5: 360px / 768px / 1280px)
+   ========================================================================== */
+
+/* Breakpoint ที่ 1: Tablet (768px ขึ้นไป) */
+@media (min-width: 768px) {
+  .header-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+  }
+
+  .main-nav {
+    width: auto;
+    overflow-x: visible;
+  }
+
+  .hero-section {
+    padding: 2.25rem 2rem;
+  }
+
+  .hero-section h1 {
+    font-size: 1.9rem;
+  }
+
+  .hero-search-form {
+    grid-template-columns: 2fr 1fr auto;
+    align-items: end;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dorm-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .info-dl {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* Breakpoint ที่ 2: Desktop (1280px ขึ้นไป) */
+@media (min-width: 1280px) {
+  .filter-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .dorm-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .detail-layout {
+    grid-template-columns: 7fr 5fr;
+    align-items: start;
+  }
+
+  .review-layout {
+    grid-template-columns: 5fr 7fr;
+    align-items: start;
+  }
+}
+
+/* ปรับแต่งการแสดงผลรูปภาพหอพักจริงให้คมชัดและมีมิติ */
+.dorm-card-img-wrap {
+  height: 215px;
+  background-color: #e7e5e4;
+}
+.dorm-card-
+/* ป้องกันไม่ให้ display: flex หรือ display: grid ไปทับแอตทริบิวต์ [hidden] */
+[hidden] {
+  display: none !important;
+}
+
+/* รองรับกรณีไฟล์ HTML เก่าใช้คลาส .brand-badge เพื่อไม่ให้การแสดงผลเพี้ยน */
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid #b7dfd0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+img {
+  transition: transform 0.35s ease;
+}
+.dorm-card:hover .dorm-card-
+/* ป้องกันไม่ให้ display: flex หรือ display: grid ไปทับแอตทริบิวต์ [hidden] */
+[hidden] {
+  display: none !important;
+}
+
+/* รองรับกรณีไฟล์ HTML เก่าใช้คลาส .brand-badge เพื่อไม่ให้การแสดงผลเพี้ยน */
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid #b7dfd0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+img {
+  transform: scale(1.04);
+}
+.dorm-id-pill {
+  background-color: rgba(28, 25, 23, 0.78);
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+.dorm-price-highlight {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  background-color: var(--color-primary-light);
+  border: 1px solid #cde3d8;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius-sm);
+}
+.dorm-price-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+.dorm-distance-pill {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
