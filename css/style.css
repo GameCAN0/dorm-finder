@@ -526,7 +526,7 @@ legend {
 }
 
 .btn-primary {
-  background-color: #e84e40;
+  background-color: var(--color-primary);
   color: #ffffff;
 }
 
