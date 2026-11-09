@@ -6,7 +6,7 @@
 
 :root {
   /* โทนสีหลัก (CSS Custom Properties ตามข้อกำหนด T4) */
-  --color-primary: #e84e40;          /* Deep Forest Sage - สบายตา น่าเชื่อถือ คอนทราสต์สูง (9.1:1) */
+  --color-primary: #0a7e07;          /* Deep Forest Sage - สบายตา น่าเชื่อถือ คอนทราสต์สูง (9.1:1) */
   --color-primary-hover: #0a3622;    /* Darker Forest เมื่อ hover */
   --color-primary-light: #e8f3ee;    /* Mint Tint อ่อนละมุน */
   --color-secondary: #b45309;        /* Warm Terracotta Amber สำหรับปุ่มรองและป้ายสำคัญ */
