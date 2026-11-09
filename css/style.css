@@ -531,6 +531,11 @@ legend {
   color: #ffffff;
 }
 
+.btn-tast {
+  background-color: var(--color-tast01);
+  color: #ffffff;
+}
+
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
   color: #ffffff;
